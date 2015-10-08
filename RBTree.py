@@ -1,9 +1,11 @@
 from random import shuffle
 
+#RedBlackTree, stright outa Cormen
 class RedBlackTree:
 	def __init__(self):
 		self.root = None
 
+	#RBtree helpers
 	def __LeftRotate(self, node):
 		y = node.right
 		node.right = y.left
@@ -109,17 +111,56 @@ class RedBlackTree:
 		else:
 			y = self.Minimum(z.right)
 			yOldRed = y.red
+		raise "Not yet done"
 			#NOT YET DONE
 
-	def Minimum(self, start = self.root):
+	#BSTree Methods, move when we get a new one
+	def Minimum(self, start = None):
+		if not start:
+			start = self.root
 		if not start:
 			return None
-		while node.left:
-			node = node.left
-		return node
+		while start.left:
+			start = start.left
+		return start
+
+	def Maximum(self, start = None):
+		if not start:
+			start = self.root
+		if not start:
+			return None
+		while start.right:
+			start = start.right
+		return start
+
+	def Search(self, key, start):
+		if not start:
+			start = self.root
+		while start and key != start.key:
+			if k < start.key:
+				start = start.left
+			else:
+				start = start.right
+		return x
+
+	def Successor(self, node):
+		if node.right:
+			return self.Minimum(node.right)
+		y = node.parent
+		while y and node == y.right:
+			node = y
+			y = y.parent
+		return y
+
+	def InOrder(self):
+		start = self.Minimum()
+		while start:
+			yield start
+			start = self.Successor(start)
 
 
 
+	#Printing and stuff
 	def __str__(self):
 		bunch = []
 		self.__PrintEdges(0, 0, self.root, bunch)
@@ -158,9 +199,12 @@ shuffle(dataz)
 
 t = RedBlackTree()
 
-for i in dataz:
-	t.Insert(i)
+nodes = [t.Insert(i) for i in dataz]
 
-print(t)
+for n in list(t.InOrder())[::3]:
+	t.Delete(n)
+
+for n in t.InOrder():
+	print(n.key)
 
 
