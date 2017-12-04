@@ -1,0 +1,35 @@
+graph RBTree{
+node_1[label="l" fillcolor="#AAAAAA" style="filled"];
+node_2[label="h" fillcolor="#AAAAAA" style="filled"];
+node_1 -- node_2;
+node_3[label="b" fillcolor="#AAAAAA" style="filled"];
+node_2 -- node_3;
+node_4[label="a" fillcolor="#FFAAAA" style="filled"];
+node_3:sw -- node_4;
+node_5[label="j" fillcolor="#FFAAAA" style="filled"];
+node_2 -- node_5;
+node_6[label="i" fillcolor="#AAAAAA" style="filled"];
+node_5 -- node_6;
+node_7[label="k" fillcolor="#AAAAAA" style="filled"];
+node_5 -- node_7;
+node_8[label="krismaz" fillcolor="#FFAAAA" style="filled"];
+node_7:se -- node_8;
+node_9[label="q" fillcolor="#AAAAAA" style="filled"];
+node_1 -- node_9;
+node_10[label="o" fillcolor="#FFAAAA" style="filled"];
+node_9 -- node_10;
+node_11[label="m" fillcolor="#AAAAAA" style="filled"];
+node_10 -- node_11;
+node_12[label="p" fillcolor="#AAAAAA" style="filled"];
+node_10 -- node_12;
+node_13[label="s" fillcolor="#FFAAAA" style="filled"];
+node_9 -- node_13;
+node_14[label="r" fillcolor="#AAAAAA" style="filled"];
+node_13 -- node_14;
+node_15[label="u" fillcolor="#AAAAAA" style="filled"];
+node_13 -- node_15;
+node_16[label="t" fillcolor="#FFAAAA" style="filled"];
+node_15 -- node_16;
+node_17[label="v" fillcolor="#FFAAAA" style="filled"];
+node_15 -- node_17;
+}
