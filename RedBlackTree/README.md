@@ -1,14 +1,15 @@
-#RED-BLACK tree visualization
+# RED-BLACK tree visualization
 
 Feed the script from std_in, see test.txt for example syntax
 
 try
 
-py3 RBTree.py < Test.txt > Test.dot
+```py3 RBTree.py < Test.txt > Test.dot```
+
 
 Output is GraphViz dot syntax, see Test.png for the result of Test.txt
 
-##A short note on Red-Black Trees
+## A short note on Red-Black Trees
 
 Red-Black Trees are nice and dandy in theory. Proving that they are sort of balanced is a breze.
 Implementing them is hell, hell I tell you!
