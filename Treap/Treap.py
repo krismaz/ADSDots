@@ -6,11 +6,89 @@ class Treap:
     
 
     def Insert(self, key):
-        raise Exception("NOTIMPL")
+        #Empty tree
+        if not self.root:
+            self.root = TreapNode(key)
+            return
+        current, Prev = self.root, None
+        
+        #Find Insertion point
+        while current:
+            if key < current.key:
+                current, prev = current.left, current
+            else:
+                current, prev = current.right, current
+
+        #Insert node
+        node = TreapNode(key)
+        if key < prev.key:
+            node.parent, prev.left = prev, node
+        else:
+            node.parent, prev.right = prev, node
+
+        #Balance
+        current = prev
+        while current:
+            if current.left and current.left.priority > current.priority:
+                self.__RightRotate(current)
+                current = current.parent.parent
+            elif current.right and current.right.priority > current.priority:
+                self.__LeftRotate(current)
+                current = current.parent.parent
+            else:
+                current = None
 
     def Remove(self, node):
-       raise Exception("NOTIMPL")
+        #Rotate the node down to a leaf
+        while node.left or node.right:
+            #Note, extra cases for easier-to-read logic
+            if not node.right:
+                self.__RightRotate(node)
+            elif not node.left:
+                self.__LeftRotate(node)
+            elif node.left.priority > node.right.priority:
+                self.__RightRotate(node)
+            else:
+                self.__LeftRotate(node)
 
+        #Cut leaf node
+        if node.parent and node == node.parent.left:
+            node.parent.left = None
+        elif node.parent and node == node.parent.right:
+            node.parent.right = None
+        else:
+            self.root = None
+
+    #Utility
+    def __LeftRotate(self, node):
+        y = node.right
+        node.right = y.left
+        if y.left:
+            y.left.parent = node
+        y.parent = node.parent
+        if not node.parent:
+            self.root = y
+        elif node == node.parent.left:
+            node.parent.left = y
+        else:# node == node.parent.right:
+            node.parent.right = y
+        y.left = node
+        node.parent = y
+
+    def __RightRotate(self, node):
+        x = node.left
+        node.left = x.right
+        if x.right:
+            x.right.parent = node
+        x.parent = node.parent
+        if not node.parent:
+            self.root = x
+        elif node == node.parent.right:
+            node.parent.right = x
+        else: #if node == node.parent.left:
+            node.parent.left = x
+        x.right = node
+        node.parent = x
    
     #Tree Methods, move when we get a new one
     def Minimum(self, start=None):
@@ -83,7 +161,7 @@ class Treap:
 
 class TreapNode:
     def __init__(self, key):
-            self.left, self.right, self.parent, self.key, self.priority = None, None, None, key, None
+            self.left, self.right, self.parent, self.key, self.priority = None, None, None, key, random.randint(0, 1000)
 
 def main():
     tree =  Treap()
@@ -99,6 +177,8 @@ def main():
                     node = tree.Search(i, None)
                     if node:
                         tree.Remove(node)
+                    else:
+                        raise Exception("Node not found")
             elif command.startswith('print'):
                 print(tree)
         except EOFError:
