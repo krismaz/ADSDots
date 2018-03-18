@@ -1,3 +1,4 @@
 insert a b c d e f g h i j k l m o p q r s t u v krismaz
-remove c d e f g
+adjust o o o o o o o
+finger a-v g-v b-d b-l r-u p-q
 print

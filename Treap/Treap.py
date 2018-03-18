@@ -1,15 +1,18 @@
 import random
+import math
 
 class Treap:
     def __init__(self):
         self.root = None
     
 
-    def Insert(self, key):
+    def Insert(self, key, priority = None):
         #Empty tree
         if not self.root:
             self.root = TreapNode(key)
-            return
+            if priority:
+                self.root = priority
+            return self.root
         current, Prev = self.root, None
         
         #Find Insertion point
@@ -21,6 +24,8 @@ class Treap:
 
         #Insert node
         node = TreapNode(key)
+        if priority:
+            node.priority = priority
         if key < prev.key:
             node.parent, prev.left = prev, node
         else:
@@ -37,6 +42,7 @@ class Treap:
                 current = current.parent.parent
             else:
                 current = None
+        return node
 
     def Remove(self, node):
         #Rotate the node down to a leaf
@@ -58,6 +64,68 @@ class Treap:
             node.parent.right = None
         else:
             self.root = None
+
+
+    #Special Operations
+
+    def Split(self, key):
+        node = self.Insert(key, math.inf)
+        left, right = Treap(), Treap()
+        left.root, right.root = node.left, node.right
+        node.left.parent, node.right.parent = None, Nonew
+        return (left, right)
+
+    def Join(self, other):
+        #note, other is assumed greater 
+        root, oroot = self.root, other.root
+        node = TreapNode(0)
+        node.left, node.right, root.parent, oroot.parent = root, oroot, node, node
+        self.Remove(node)
+
+    def SearchAndAdjust(self, k):
+        #Not sure this makes sense, I found some notes that this might be neat
+        node = self.Search(k)
+        node.priority = max(node.priority, random.randint(0, 1000))
+        current = node.parent
+        while current:
+            if current.left and current.left.priority > current.priority:
+                self.__RightRotate(current)
+                current = current.parent.parent
+            elif current.right and current.right.priority > current.priority:
+                self.__LeftRotate(current)
+                current = current.parent.parent
+            else:
+                current = None
+        return node
+
+    def FingerSearch(self, f, k):
+        if not f.parent:
+            return self.Search(k)
+        v, current = f.parent, None
+        c = 0
+        while True:
+            c += 1
+            #Upwards step
+            if v:
+                if v.key <= f.key:
+                    v = v.parent
+                elif f.key < v.key and v.key <= k:
+                    v, current = v.parent, v
+                else:
+                    v, current = None, v
+            
+
+            #Downwards step
+            if current:
+                if current.key == k:
+                    print(c,' search steps')
+                    return current
+                elif k < current.key:
+                    current = current.left
+                else:
+                    current = current.right
+
+
 
     #Utility
     def __LeftRotate(self, node):
@@ -179,6 +247,21 @@ def main():
                         tree.Remove(node)
                     else:
                         raise Exception("Node not found")
+            elif command.startswith('split'):
+                for t in tree.Split(command.split()[1]):
+                    print(t)
+            elif command.startswith('join'):
+                ntree = Treap()
+                for i in command.split()[1:]:
+                    ntree.Insert(i)
+                tree.Join(ntree)
+            elif command.startswith('adjust'):
+                for i in command.split()[1:]:
+                    tree.SearchAndAdjust(i)
+            elif command.startswith('finger'):
+                for i in command.split()[1:]:
+                    left, right = i.split('-')
+                    print(tree.FingerSearch(tree.Search(left), right).key)
             elif command.startswith('print'):
                 print(tree)
         except EOFError:

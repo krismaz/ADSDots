@@ -13,7 +13,17 @@ Output is GraphViz dot syntax, see Test.png for the result of Test.txt
 
 Treap basic operations are a joy to implement, the data structure is amazing.
 
+Split/join (and by extension excission) are ez-pz due to natural balance of treaps.
+Self-adjustment was strange, due to missing literature.
+
+Finger search is super simple if done by parallel searches (see Gerth paper).
+
+Overall, amazing data structure
+
 ##Literature
 
 https://www.cs.cmu.edu/~scandal/papers/treaps-spaa98.pdf
+
 https://faculty.washington.edu/aragon/pubs/rst96.pdf
+
+http://www.cs.au.dk/~gerth/papers/finger05.pdf
