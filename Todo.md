@@ -1,10 +1,8 @@
-#TODO
+# TODO
 
 List of structures that could be added, in groups ordered by importance/willingness
 
-
-##Binary Search Trees
-
+## Binary Search Trees
 
 Splay Tree
 
@@ -20,9 +18,7 @@ Zipper/Tango Trees?
 
 Gerth's Silly Tree-like thing that requires special 2-4 trees?
 
-
-##Other Trees
-
+## Other Trees
 
 (Dynamic) Van Emde Boas Trees
 
@@ -36,9 +32,7 @@ Fusion Tree?
 
 2-3 Tree
 
-
-##Geometry Structures
-
+## Geometry Structures
 
 Interval Tree
 
@@ -50,17 +44,13 @@ kd Tree
 
 Quad Tree
 
-
-##Heaps
-
+## Heaps
 
 Classic Min/Max Heap
 
 Fibonacci Heap
 
-
-##Other
-
+## Other
 
 Skip lists
 
