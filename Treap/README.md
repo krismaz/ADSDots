@@ -20,7 +20,7 @@ Finger search is super simple if done by parallel searches (see Gerth paper).
 
 Overall, amazing data structure
 
-##Literature
+## Literature
 
 https://www.cs.cmu.edu/~scandal/papers/treaps-spaa98.pdf
 
