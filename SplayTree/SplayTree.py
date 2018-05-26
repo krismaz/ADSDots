@@ -6,11 +6,79 @@ class SplayTree:
         self.root = None
     
 
-    def Insert(self, key, priority = None):
-      pass
-
+    def Insert(self, key):
+        node = self.Search(key)
+        if node:
+            return node
+        node = SplayTreeNode(key)
+        if self.root and self.root.key < key:
+            node.left = self.root
+            node.right = self.root.right
+            self.root.right = None
+            node.left.parent = node
+            if node.right:
+                node.right.parent = node
+        elif self.root and self.root.key >= key:
+            node.right = self.root
+            node.left = self.root.left
+            self.root.left = None
+            node.right.parent = node
+            if node.left:
+                node.left.parent = node
+        self.root = node
+        return node
     def Remove(self, node):
         pass
+
+    def Search(self, key, start=None):
+        if not start:
+            start = self.root
+        while start and key != start.key:
+            if key < start.key:
+                if not start.left:
+                    self.Splay(start)
+                    return
+                start = start.left
+            else:
+                if not start.right:
+                    self.Splay(start)
+                    return
+                start = start.right
+        if start:
+            self.Splay(start)
+        return start
+
+    def Splay(self, x):
+        while True:
+            y = x.parent
+            if not y:
+                break
+            z = y.parent
+            if not z:
+                #zig
+                if x == y.left:
+                    self.__RightRotate(y)
+                else:
+                    self.__LeftRotate(y)
+            elif x == y.left and y == z.left:
+                #zig-zig
+                self.__RightRotate(z)
+                self.__RightRotate(y)
+            elif x == y.right and y == z.right:
+                #zig-zig
+                self.__LeftRotate(z)
+                self.__LeftRotate(y)
+            elif x == y.right and y == z.left:
+                #zig-zig
+                self.__LeftRotate(y)
+                self.__RightRotate(z)
+            elif x == y.left and y == z.right:
+                #zig-zig
+                self.__RightRotate(y)
+                self.__LeftRotate(z)
+            else:
+                raise Exception("Programming err")
+        self.root = x
 
 
     #Utility
@@ -63,15 +131,7 @@ class SplayTree:
             start = start.right
         return start
 
-    def Search(self, key, start=None):
-        if not start:
-            start = self.root
-        while start and key != start.key:
-            if key < start.key:
-                start = start.left
-            else:
-                start = start.right
-        return start
+    
 
     def Successor(self, node):
         if node.right:
@@ -98,7 +158,7 @@ class SplayTree:
         if not node:
             return id
         id = id + 1
-        bunch.append('node_' + str(id) + '[label="{' + str(node.key) '}"];')
+        bunch.append('node_' + str(id) + '[label="{' + str(node.key) + '}"];')
         if node.parent and not node.parent.right:
             bunch.append('node_' + str(parent) + ':sw -- node_' + str(id) + ';')
         elif node.parent and  not node.parent.left:
@@ -126,6 +186,9 @@ def main():
             if command.startswith('insert'):
                 for i in command.split()[1:]:
                     tree.Insert(i)
+            if command.startswith('search'):
+                for i in command.split()[1:]:
+                    tree.Search(i)
             elif command.startswith('remove'):
                 for i in command.split()[1:]:
                     node = tree.Search(i, None)
