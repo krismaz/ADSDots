@@ -27,8 +27,23 @@ class SplayTree:
                 node.left.parent = node
         self.root = node
         return node
+
     def Remove(self, node):
-        pass
+        self.Splay(node)
+        if not node.left and not node.right:
+            self.root = None
+        elif not node.left:
+            self.root = node.right
+            self.root.parent = None
+        elif not node.right:
+            self.root = node.left
+            self.root.parent = None
+        else:
+            self.root = node.left
+            self.root.parent = None
+            self.Splay(self.Maximum())
+            self.root.right = node.right
+            node.right.parent = self.root 
 
     def Search(self, key, start=None):
         if not start:

@@ -1,6 +1,6 @@
 # TREAP visualization
 
-Feed the script from std_in, see test.txt for example syntax
+Feed the script from std_in, see Test.txt for example syntax
 
 try
 
