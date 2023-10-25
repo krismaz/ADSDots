@@ -11,7 +11,7 @@ class Treap:
         if not self.root:
             self.root = TreapNode(key)
             if priority:
-                self.root = priority
+                self.root.priority = priority
             return self.root
         current, Prev = self.root, None
         
